@@ -8,6 +8,7 @@ public interface BitcoinExchangeService {
 
 	BitcoinExchange[] getAllFromExmo();
 
+	void save(BitcoinExchange bitcoinExchange);
+	
 	BitcoinExchange getHighestSellingPrice();
-
 }

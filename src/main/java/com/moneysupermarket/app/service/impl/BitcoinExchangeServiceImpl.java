@@ -49,6 +49,11 @@ public class BitcoinExchangeServiceImpl implements BitcoinExchangeService {
 	}
 	
 	@Override
+	public void save(BitcoinExchange bitcoinExchange) {
+		bitcoinExchangeRepository.save(bitcoinExchange);
+	}
+	
+	@Override
 	public BitcoinExchange getHighestSellingPrice() {
 		return null;
 	}

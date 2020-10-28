@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,15 +30,18 @@ public class BitcoinExchangeServiceImplTest {
 	
 	private BitcoinExchangeService bitcoinExchangeService;
 	
+	private BitcoinExchange blockChainExchange;
+	
 	@Before
 	public void setUp() throws Exception {
 		bitcoinExchangeService = new BitcoinExchangeServiceImpl(bitcoinExchangeRepository, restTemplate);
+	
+		blockChainExchange = new BitcoinExchange("https://blockchain.info/ticker", "USD", 13122.13, 13122.13, 13122.13);
 	}
 
 	@Test
 	public void getAllFromBlockChain_returnBitcoinExchanges() {
-		BitcoinExchange bitcoinExchange = new BitcoinExchange("https://blockchain.info/ticker", "USD", 13122.13, 13122.13, 13122.13);
-		BitcoinExchange[] bitcoinExchangeArray = new BitcoinExchange[]{ bitcoinExchange };
+		BitcoinExchange[] bitcoinExchangeArray = new BitcoinExchange[]{ blockChainExchange };
 		ResponseEntity<BitcoinExchange[]> response = new ResponseEntity<BitcoinExchange[]>(bitcoinExchangeArray, HttpStatus.OK);
 		
 		given(restTemplate.getForEntity("https://blockchain.info/ticker", BitcoinExchange[].class))
@@ -46,10 +50,6 @@ public class BitcoinExchangeServiceImplTest {
 		BitcoinExchange[] actualbitcoinExchanges = bitcoinExchangeService.getAllFromBlockChain();
 		
 		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, actualbitcoinExchanges);
-	}
-	
-	public void save_shouldBeCalledOnce() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -65,6 +65,13 @@ public class BitcoinExchangeServiceImplTest {
 		
 		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, actualbitcoinExchanges);
 
+	}
+	
+	@Test
+	public void save_shouldBeCalledOnce() {
+		bitcoinExchangeService.save(blockChainExchange);
+		
+		verify(bitcoinExchangeRepository, times(1)).save(blockChainExchange);
 	}
 	
 	@Test
