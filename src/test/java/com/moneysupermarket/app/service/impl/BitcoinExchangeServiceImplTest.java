@@ -33,4 +33,8 @@ public class BitcoinExchangeServiceImplTest {
 	public void getAllFromExmo_returnBitcoinExchanges() {
 		fail("Not yet implemented");
 	}
+	
+	public void getHighestSellingPrice_returnBitcoinExchange() {
+		fail("Not yet implemented");
+	}
 }
