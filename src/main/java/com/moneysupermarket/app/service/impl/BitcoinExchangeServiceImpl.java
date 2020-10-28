@@ -18,6 +18,7 @@ public class BitcoinExchangeServiceImpl implements BitcoinExchangeService {
 	private RestTemplate restTemplate;
 	
 	private String blockChainUrl;
+	private String exmoUrl;
 	
 	@Autowired
 	public BitcoinExchangeServiceImpl(BitcoinExchangeRepository bitcoinExchangeRepository, RestTemplate restTemplate) {
@@ -25,21 +26,29 @@ public class BitcoinExchangeServiceImpl implements BitcoinExchangeService {
 		this.restTemplate = restTemplate;
 		
 		blockChainUrl = "https://blockchain.info/ticker";
+		exmoUrl = "https://api.exmo.com/v1/ticker";
 	}
 
+	@Override
 	public BitcoinExchange[] getAllFromBlockChain() {
-		ResponseEntity<BitcoinExchange[]> response = restTemplate.getForEntity(blockChainUrl, BitcoinExchange[].class); 
-		
+		return makeAPICallForBitcoinExchanges(blockChainUrl);
+	}
+	
+	@Override
+	public BitcoinExchange[] getAllFromExmo() {		
+		return makeAPICallForBitcoinExchanges(exmoUrl);
+	}
+	
+	private BitcoinExchange[] makeAPICallForBitcoinExchanges(String url) {
+		ResponseEntity<BitcoinExchange[]> response = restTemplate.getForEntity(url, BitcoinExchange[].class); 
+
 		if(response.getStatusCode() == HttpStatus.NOT_FOUND)
 			throw new BitcoinExchangeNotFoundException();
 		
 		return response.getBody();
 	}
 	
-	public BitcoinExchange[] getAllFromExmo() {
-		return null;
-	}
-	
+	@Override
 	public BitcoinExchange getHighestSellingPrice() {
 		return null;
 	}
