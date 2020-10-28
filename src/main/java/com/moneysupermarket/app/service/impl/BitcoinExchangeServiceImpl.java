@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.moneysupermarket.app.model.BitcoinExchange;
 import com.moneysupermarket.app.repository.BitcoinExchangeRepository;
 import com.moneysupermarket.app.service.BitcoinExchangeService;
 
@@ -19,4 +20,15 @@ public class BitcoinExchangeServiceImpl implements BitcoinExchangeService {
 		this.restTemplate = restTemplate;
 	}
 
+	public BitcoinExchange[] getAllFromBlockChain() {
+		return null;
+	}
+	
+	public BitcoinExchange[] getAllFromExmo() {
+		return null;
+	}
+	
+	public BitcoinExchange getHighestSellingPrice() {
+		return null;
+	}
 }
