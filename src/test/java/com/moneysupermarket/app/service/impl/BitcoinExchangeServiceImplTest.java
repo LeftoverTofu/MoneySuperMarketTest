@@ -42,14 +42,27 @@ public class BitcoinExchangeServiceImplTest {
 		given(restTemplate.getForEntity("https://blockchain.info/ticker", BitcoinExchange[].class))
 			.willReturn(response);
 		
-		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, response.getBody());
+		BitcoinExchange[] actualbitcoinExchanges = bitcoinExchangeService.getAllFromBlockChain();
+		
+		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, actualbitcoinExchanges);
 	}
 
 	@Test
 	public void getAllFromExmo_returnBitcoinExchanges() {
-		fail("Not yet implemented");
+		BitcoinExchange bitcoinExchange = new BitcoinExchange("https://api.exmo.com/v1/ticker", "BTC_USD", 13114.44, 13114.98, 13120.07);
+		BitcoinExchange[] bitcoinExchangeArray = new BitcoinExchange[]{ bitcoinExchange };
+		ResponseEntity<BitcoinExchange[]> response = new ResponseEntity<BitcoinExchange[]>(bitcoinExchangeArray, HttpStatus.OK);
+		
+		given(restTemplate.getForEntity("https://api.exmo.com/v1/ticker", BitcoinExchange[].class))
+			.willReturn(response);
+		
+		BitcoinExchange[] actualbitcoinExchanges = bitcoinExchangeService.getAllFromExmo();
+		
+		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, actualbitcoinExchanges);
+
 	}
 	
+	@Test
 	public void getHighestSellingPrice_returnBitcoinExchange() {
 		fail("Not yet implemented");
 	}
