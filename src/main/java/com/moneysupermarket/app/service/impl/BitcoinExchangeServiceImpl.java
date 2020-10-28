@@ -1,5 +1,7 @@
 package com.moneysupermarket.app.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +56,12 @@ public class BitcoinExchangeServiceImpl implements BitcoinExchangeService {
 	}
 	
 	@Override
-	public BitcoinExchange getHighestSellingPrice() {
-		return null;
+	public BitcoinExchange getHighestSellingPrice(String[] currencies) {
+		Optional<BitcoinExchange> bitcoinExchange = bitcoinExchangeRepository.findHighestSellingPrice(currencies);
+	
+		if(bitcoinExchange.isPresent())
+			return bitcoinExchange.get();
+		
+		throw new BitcoinExchangeNotFoundException();
 	}
 }

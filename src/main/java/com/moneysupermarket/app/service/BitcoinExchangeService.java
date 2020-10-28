@@ -10,5 +10,5 @@ public interface BitcoinExchangeService {
 
 	void save(BitcoinExchange bitcoinExchange);
 	
-	BitcoinExchange getHighestSellingPrice();
+	BitcoinExchange getHighestSellingPrice(String[] currencies);
 }

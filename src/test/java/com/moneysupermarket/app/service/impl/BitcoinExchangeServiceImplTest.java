@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,12 +33,14 @@ public class BitcoinExchangeServiceImplTest {
 	private BitcoinExchangeService bitcoinExchangeService;
 	
 	private BitcoinExchange blockChainExchange;
+	private BitcoinExchange exmoExchange;
 	
 	@Before
 	public void setUp() throws Exception {
 		bitcoinExchangeService = new BitcoinExchangeServiceImpl(bitcoinExchangeRepository, restTemplate);
 	
 		blockChainExchange = new BitcoinExchange("https://blockchain.info/ticker", "USD", 13122.13, 13122.13, 13122.13);
+		exmoExchange = new BitcoinExchange("https://api.exmo.com/v1/ticker", "BTC_USD", 13114.44, 13114.98, 13120.07);
 	}
 
 	@Test
@@ -54,8 +58,7 @@ public class BitcoinExchangeServiceImplTest {
 
 	@Test
 	public void getAllFromExmo_returnBitcoinExchanges() {
-		BitcoinExchange bitcoinExchange = new BitcoinExchange("https://api.exmo.com/v1/ticker", "BTC_USD", 13114.44, 13114.98, 13120.07);
-		BitcoinExchange[] bitcoinExchangeArray = new BitcoinExchange[]{ bitcoinExchange };
+		BitcoinExchange[] bitcoinExchangeArray = new BitcoinExchange[]{ exmoExchange };
 		ResponseEntity<BitcoinExchange[]> response = new ResponseEntity<BitcoinExchange[]>(bitcoinExchangeArray, HttpStatus.OK);
 		
 		given(restTemplate.getForEntity("https://api.exmo.com/v1/ticker", BitcoinExchange[].class))
@@ -76,6 +79,13 @@ public class BitcoinExchangeServiceImplTest {
 	
 	@Test
 	public void getHighestSellingPrice_returnBitcoinExchange() {
-		fail("Not yet implemented");
+		String[] currencies = new String[] {"USD", "BTC_USD"};
+		
+		given(bitcoinExchangeRepository.findHighestSellingPrice(currencies))
+			.willReturn(Optional.of(exmoExchange));
+		
+		BitcoinExchange actualBitcoinExchange = bitcoinExchangeService.getHighestSellingPrice(currencies);
+
+		assertEquals("bitcoin is not the highest sell", exmoExchange, actualBitcoinExchange);
 	}
 }
