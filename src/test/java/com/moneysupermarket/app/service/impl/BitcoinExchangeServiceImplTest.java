@@ -42,8 +42,6 @@ public class BitcoinExchangeServiceImplTest {
 		given(restTemplate.getForEntity("https://blockchain.info/ticker", BitcoinExchange[].class))
 			.willReturn(response);
 		
-		System.out.println(response.getBody().toString());
-		
 		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, response.getBody());
 	}
 
