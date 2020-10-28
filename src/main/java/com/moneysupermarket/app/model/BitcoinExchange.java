@@ -15,11 +15,11 @@ public class BitcoinExchange {
 	private String nameOfAPI;
 
 	private String currency;
-	private float last;
-	private float buy;
-	private float sell;
+	private double last;
+	private double buy;
+	private double sell;
 
-	public BitcoinExchange(String nameOfAPI, String currency, float last, float buy, float sell) {
+	public BitcoinExchange(String nameOfAPI, String currency, double last, double buy, double sell) {
 		this.nameOfAPI = nameOfAPI;
 		this.currency = currency;
 		this.last = last;
@@ -51,28 +51,27 @@ public class BitcoinExchange {
 		this.currency = currency;
 	}
 
-	public float getLast() {
+	public double getLast() {
 		return last;
 	}
 
-	public void setLast(float last) {
+	public void setLast(double last) {
 		this.last = last;
 	}
 
-	public float getBuy() {
+	public double getBuy() {
 		return buy;
 	}
 
-	public void setBuy(float buy) {
+	public void setBuy(double buy) {
 		this.buy = buy;
 	}
 
-	public float getSell() {
+	public double getSell() {
 		return sell;
 	}
 
-	public void setSell(float sell) {
+	public void setSell(double sell) {
 		this.sell = sell;
 	}
-
 }
