@@ -1,6 +1,7 @@
 package com.moneysupermarket.app.service.impl;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.*;
 
@@ -45,6 +46,10 @@ public class BitcoinExchangeServiceImplTest {
 		BitcoinExchange[] actualbitcoinExchanges = bitcoinExchangeService.getAllFromBlockChain();
 		
 		assertArrayEquals("Bitcoin exchange does not match", bitcoinExchangeArray, actualbitcoinExchanges);
+	}
+	
+	public void save_shouldBeCalledOnce() {
+		fail("Not yet implemented");
 	}
 
 	@Test
